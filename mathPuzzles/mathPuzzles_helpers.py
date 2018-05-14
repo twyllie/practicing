@@ -53,12 +53,13 @@ def findLargestPrimeMultipleOf(number):
     listOfFactors = primeFactorization(number)
     return listOfFactors[-1]
 
-# A function to check if a number is a multiple of another number
-def isMultipleOf(number, anotherNumber):
-    return number % anotherNumber == 0;
-
 def reverseString(string):
     newString = ''
     for i in range(len(string)-1, -1, -1):
         newString += string[i]
     return newString;
+
+import time
+startTime = time.time()
+endTime = time.time()
+print('script ran in ' + '{:.5f}'.format(endTime - startTime) + ' seconds')

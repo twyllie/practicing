@@ -9,12 +9,23 @@ def gridBuilder(stringONumbers):
     for x in range(0, 20):
         for y in range(0, 20):
             index = (y*20)+x
-            # print('coord['+str(x)+']['+str(y)+'] = '+workingList[index]+' at index:'+str(index))
             coords[x].append(int(workingList[index]))
 
     return coords
 
+def gridPrinter(grid):
+    for y in range(0, 20):
+        for x in range(0, 20):
+            prntStr = str(grid[x][y])
+            if(grid[x][y] < 10):
+                prntStr = '0' + str(grid[x][y])
+            if(x != 19):
+                print(prntStr, end=' ')
+            else:
+                print(prntStr)
+
 def findGreatestVertical(grid):
+    greatestVertical = 0
     for x in range(0, 20):
         for y in range(0, 20):
             prodList = []
@@ -25,15 +36,15 @@ def findGreatestVertical(grid):
 
             if len(prodList) == 4:
                 product = 1
-                greatestVertical = 0
-                print(str(len(prodList)) + ' vert')
                 for number in prodList:
                     product = product*number
                 if product > greatestVertical:
                     greatestVertical = product
+                print(str(prodList) + ': ' + str(product) +' / ' + str(greatestVertical))
     return greatestVertical;
 
 def findGreatestHorizontal(grid):
+    greatestHorizontal = 0
     for y in range(0, 20):
         for x in range(0, 20):
             prodList = []
@@ -43,16 +54,16 @@ def findGreatestHorizontal(grid):
                     prodList.append(grid[x+mod][y])
 
             if len(prodList) == 4:
-                print(str(len(prodList)) + ' horiz')
                 product = 1
-                greatestHorizontal = 0
                 for number in prodList:
                     product = product*number
                 if product > greatestHorizontal:
                     greatestHorizontal = product
+                print(str(prodList) + ': '  + str(product) +' / ' + str(greatestHorizontal))
     return greatestHorizontal;
 
-def findGreatestDiagonal(grid):
+def findGreatestRightDiagonal(grid):
+    greatestDiagonal = 0
     for x in range(0, 20):
         for y in range(0, 20):
             prodList = []
@@ -62,22 +73,42 @@ def findGreatestDiagonal(grid):
                     prodList.append(grid[x+mod][y+mod])
 
             if len(prodList) == 4:
-                print(str(len(prodList)) + ' diag')
                 product = 1
-                greatestDiagonal = 0
                 for number in prodList:
                     product = product*number
                 if product > greatestDiagonal:
                     greatestDiagonal = product
+                print(str(prodList) + ': '  + str(product) +' / ' + str(greatestDiagonal))
+    return greatestDiagonal;
+
+def findGreatestLeftDiagonal(grid):
+    greatestDiagonal = 0
+    for x in range(19, -1, -1):
+        for y in range(0, 20):
+            prodList = []
+            prodList.append(grid[x][y])
+            for mod in range(1,4):
+                if x-mod >= 0 and y+mod < 20:
+                    prodList.append(grid[x-mod][y+mod])
+
+            if len(prodList) == 4:
+                product = 1
+                for number in prodList:
+                    product = product*number
+                if product > greatestDiagonal:
+                    greatestDiagonal = product
+                print(str(prodList) + ': '  + str(product) +' / ' + str(greatestDiagonal))
     return greatestDiagonal;
 
 def greatestProduct(data):
     dataGrid = gridBuilder(data)
+    gridPrinter(dataGrid)
 
     prodList = []
     prodList.append(findGreatestVertical(dataGrid))
     prodList.append(findGreatestHorizontal(dataGrid))
-    prodList.append(findGreatestDiagonal(dataGrid))
+    prodList.append(findGreatestRightDiagonal(dataGrid))
+    prodList.append(findGreatestLeftDiagonal(dataGrid))
 
     greatestProduct = 0
     for number in prodList:
